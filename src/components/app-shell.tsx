@@ -90,7 +90,7 @@ function NavList({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
   );
 }
 
-function SidebarInner({ onNavigate }: { onNavigate?: () => void }) {
+function SidebarInner({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
   const { profile, isAdmin } = useAuth();
   return (
     <div className="flex h-full flex-col bg-sidebar">
