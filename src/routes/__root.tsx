@@ -79,15 +79,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ShopSense — Vendor Management System" },
+      { title: "Sign in — ShopSense Vendor Management" },
       {
         name: "description",
         content:
-          "ShopSense is a modern vendor management platform for tracking vendors, products, customers and revenue in one place.",
+          "Sign in to ShopSense to manage vendors, catalogues, customers and revenue from a single control room.",
       },
       { name: "author", content: "ShopSense" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Sign in — ShopSense Vendor Management" },
+      { name: "twitter:title", content: "Sign in — ShopSense Vendor Management" },
+      { property: "og:description", content: "Sign in to ShopSense to manage vendors, catalogues, customers and revenue from a single control room." },
+      { name: "twitter:description", content: "Sign in to ShopSense to manage vendors, catalogues, customers and revenue from a single control room." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/caba0783-a01d-45cb-a0a1-85cd3573c2fb/id-preview-4390d357--b8417954-d45e-461c-8c04-8df75f92882f.lovable.app-1785922685720.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/caba0783-a01d-45cb-a0a1-85cd3573c2fb/id-preview-4390d357--b8417954-d45e-461c-8c04-8df75f92882f.lovable.app-1785922685720.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
