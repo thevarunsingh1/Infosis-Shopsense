@@ -279,3 +279,20 @@ export const qk = {
   revenueVendor: ["revenue-by-vendor"] as const,
   revenueMonth: ["revenue-by-month"] as const,
 };
+
+/* ---------------- Product images ---------------- */
+
+export async function uploadProductImage(file: File): Promise<string> {
+  const ext = file.name.split(".").pop() ?? "jpg";
+  const path = `${crypto.randomUUID()}.${ext}`;
+  const { error } = await supabase.storage.from("product-images").upload(path, file, {
+    cacheControl: "3600",
+    upsert: false,
+  });
+  if (error) throw new Error(error.message);
+  const { data, error: signError } = await supabase.storage
+    .from("product-images")
+    .createSignedUrl(path, 60 * 60 * 24 * 365 * 5);
+  if (signError || !data) throw new Error(signError?.message ?? "Could not read uploaded image");
+  return data.signedUrl;
+}
