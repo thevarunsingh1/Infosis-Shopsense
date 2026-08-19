@@ -61,6 +61,166 @@ export type Database = {
           },
         ]
       }
+      inventory_movements: {
+        Row: {
+          change: number
+          created_at: string
+          id: string
+          is_demo: boolean
+          note: string | null
+          occurred_at: string
+          product_id: string
+          reason: string
+          vendor_id: string
+        }
+        Insert: {
+          change: number
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          note?: string | null
+          occurred_at?: string
+          product_id: string
+          reason?: string
+          vendor_id: string
+        }
+        Update: {
+          change?: number
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          note?: string | null
+          occurred_at?: string
+          product_id?: string
+          reason?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_movements_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_embeddings: {
+        Row: {
+          content: string
+          embedding: string | null
+          product_id: string
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          content: string
+          embedding?: string | null
+          product_id: string
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          content?: string
+          embedding?: string | null
+          product_id?: string
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_embeddings_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: true
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_embeddings_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_reviews: {
+        Row: {
+          analyzed_at: string | null
+          author_name: string | null
+          body: string
+          created_at: string
+          customer_id: string | null
+          id: string
+          is_demo: boolean
+          product_id: string
+          rating: number
+          sentiment_label: string | null
+          sentiment_score: number | null
+          title: string | null
+          vendor_id: string
+        }
+        Insert: {
+          analyzed_at?: string | null
+          author_name?: string | null
+          body: string
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          is_demo?: boolean
+          product_id: string
+          rating?: number
+          sentiment_label?: string | null
+          sentiment_score?: number | null
+          title?: string | null
+          vendor_id: string
+        }
+        Update: {
+          analyzed_at?: string | null
+          author_name?: string | null
+          body?: string
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          is_demo?: boolean
+          product_id?: string
+          rating?: number
+          sentiment_label?: string | null
+          sentiment_score?: number | null
+          title?: string | null
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_reviews_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_reviews_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           category: string
@@ -68,7 +228,9 @@ export type Database = {
           description: string | null
           id: string
           image_url: string | null
+          is_demo: boolean
           keywords: string[]
+          low_stock_threshold: number
           name: string
           price: number
           seo_description: string | null
@@ -85,7 +247,9 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          is_demo?: boolean
           keywords?: string[]
+          low_stock_threshold?: number
           name: string
           price?: number
           seo_description?: string | null
@@ -102,7 +266,9 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          is_demo?: boolean
           keywords?: string[]
+          low_stock_threshold?: number
           name?: string
           price?: number
           seo_description?: string | null
@@ -155,6 +321,7 @@ export type Database = {
           created_at: string
           customer_id: string | null
           id: string
+          is_demo: boolean
           occurred_at: string
           product_id: string | null
           quantity: number
@@ -169,6 +336,7 @@ export type Database = {
           created_at?: string
           customer_id?: string | null
           id?: string
+          is_demo?: boolean
           occurred_at?: string
           product_id?: string | null
           quantity?: number
@@ -183,6 +351,7 @@ export type Database = {
           created_at?: string
           customer_id?: string | null
           id?: string
+          is_demo?: boolean
           occurred_at?: string
           product_id?: string | null
           quantity?: number
@@ -297,6 +466,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adjust_stock: {
+        Args: {
+          _delta: number
+          _note?: string
+          _product_id: string
+          _reason?: string
+        }
+        Returns: number
+      }
+      analytics_validation: { Args: never; Returns: Json }
+      customer_overview: { Args: never; Returns: Json }
+      customer_segments: {
+        Args: never
+        Returns: {
+          avg_spend: number
+          customers: number
+          pct: number
+          revenue: number
+          segment: string
+        }[]
+      }
       dashboard_stats: { Args: never; Returns: Json }
       has_role: {
         Args: {
@@ -305,7 +495,44 @@ export type Database = {
         }
         Returns: boolean
       }
+      inventory_overview: { Args: never; Returns: Json }
+      inventory_rows: {
+        Args: never
+        Returns: {
+          category: string
+          last_updated: string
+          low_stock_threshold: number
+          name: string
+          price: number
+          product_id: string
+          status: string
+          stock: number
+          units_30d: number
+          units_sold: number
+          velocity: number
+          vendor_name: string
+        }[]
+      }
+      match_products: {
+        Args: { _embedding: string; _exclude?: string; _limit?: number }
+        Returns: {
+          category: string
+          image_url: string
+          name: string
+          price: number
+          product_id: string
+          similarity: number
+        }[]
+      }
       owns_vendor: { Args: { _vendor_id: string }; Returns: boolean }
+      product_sales_history: {
+        Args: { _days?: number; _product_id: string }
+        Returns: {
+          day: string
+          revenue: number
+          units: number
+        }[]
+      }
       revenue_by_month: {
         Args: never
         Returns: {
@@ -321,6 +548,27 @@ export type Database = {
           revenue: number
           vendor_id: string
           vendor_name: string
+        }[]
+      }
+      sales_trends: {
+        Args: { _days?: number }
+        Returns: {
+          day: string
+          orders: number
+          revenue: number
+          units: number
+        }[]
+      }
+      top_products: {
+        Args: { _category?: string; _limit?: number }
+        Returns: {
+          category: string
+          image_url: string
+          name: string
+          orders: number
+          product_id: string
+          revenue: number
+          units_sold: number
         }[]
       }
     }
