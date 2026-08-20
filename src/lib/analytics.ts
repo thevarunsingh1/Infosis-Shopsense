@@ -118,7 +118,7 @@ export async function fetchTopProducts(limit: number, category?: string): Promis
   return (unwrapRpc<TopProduct[]>(
     await supabase.rpc("top_products", {
       _limit: limit,
-      _category: category && category !== "all" ? category : null,
+      ...(category && category !== "all" ? { _category: category } : {}),
     }),
   ) ?? []) as TopProduct[];
 }
