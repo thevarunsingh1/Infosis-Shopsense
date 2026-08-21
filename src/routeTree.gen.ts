@@ -15,6 +15,7 @@ import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedApprovalsRouteImport } from './routes/_authenticated/approvals'
 import { Route as AuthenticatedCustomerAnalyticsRouteImport } from './routes/_authenticated/customer-analytics'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedForecastRouteImport } from './routes/_authenticated/forecast'
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedProductsRouteImport } from './routes/_authenticated/products'
 import { Route as AuthenticatedRecommendationsRouteImport } from './routes/_authenticated/recommendations'
@@ -51,6 +52,11 @@ const AuthenticatedCustomerAnalyticsRoute =
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedForecastRoute = AuthenticatedForecastRouteImport.update({
+  id: '/forecast',
+  path: '/forecast',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/approvals': typeof AuthenticatedApprovalsRoute
   '/customer-analytics': typeof AuthenticatedCustomerAnalyticsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/forecast': typeof AuthenticatedForecastRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/products': typeof AuthenticatedProductsRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/approvals': typeof AuthenticatedApprovalsRoute
   '/customer-analytics': typeof AuthenticatedCustomerAnalyticsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/forecast': typeof AuthenticatedForecastRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/products': typeof AuthenticatedProductsRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
@@ -127,6 +135,7 @@ export interface FileRoutesById {
   '/_authenticated/approvals': typeof AuthenticatedApprovalsRoute
   '/_authenticated/customer-analytics': typeof AuthenticatedCustomerAnalyticsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/forecast': typeof AuthenticatedForecastRoute
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/products': typeof AuthenticatedProductsRoute
   '/_authenticated/recommendations': typeof AuthenticatedRecommendationsRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/customer-analytics'
     | '/dashboard'
+    | '/forecast'
     | '/inventory'
     | '/products'
     | '/recommendations'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/customer-analytics'
     | '/dashboard'
+    | '/forecast'
     | '/inventory'
     | '/products'
     | '/recommendations'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/_authenticated/approvals'
     | '/_authenticated/customer-analytics'
     | '/_authenticated/dashboard'
+    | '/_authenticated/forecast'
     | '/_authenticated/inventory'
     | '/_authenticated/products'
     | '/_authenticated/recommendations'
@@ -228,6 +240,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/forecast': {
+      id: '/_authenticated/forecast'
+      path: '/forecast'
+      fullPath: '/forecast'
+      preLoaderRoute: typeof AuthenticatedForecastRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inventory': {
@@ -287,6 +306,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedApprovalsRoute: typeof AuthenticatedApprovalsRoute
   AuthenticatedCustomerAnalyticsRoute: typeof AuthenticatedCustomerAnalyticsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedForecastRoute: typeof AuthenticatedForecastRoute
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedProductsRoute: typeof AuthenticatedProductsRoute
   AuthenticatedRecommendationsRoute: typeof AuthenticatedRecommendationsRoute
@@ -301,6 +321,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedApprovalsRoute: AuthenticatedApprovalsRoute,
   AuthenticatedCustomerAnalyticsRoute: AuthenticatedCustomerAnalyticsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedForecastRoute: AuthenticatedForecastRoute,
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedProductsRoute: AuthenticatedProductsRoute,
   AuthenticatedRecommendationsRoute: AuthenticatedRecommendationsRoute,
